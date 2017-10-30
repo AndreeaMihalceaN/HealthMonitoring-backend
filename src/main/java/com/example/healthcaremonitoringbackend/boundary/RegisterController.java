@@ -6,11 +6,13 @@ import com.example.healthcaremonitoringbackend.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller    // This means that this class is a Controller
-@RequestMapping(path="/demo") // This means URL's start with /demo (after Application path)
+@RequestMapping(path="/register") // This means URL's start with /demo (after Application path)
+@ResponseStatus(HttpStatus.CREATED)
 public class RegisterController {
 
     //private static final Logger LOG = LoggerFactory.getLogger(VacancyController.class);
