@@ -21,18 +21,22 @@ public class RegisterController {
 
     @GetMapping(path="/add") // Map ONLY GET Requests
     public @ResponseBody String addNewUser (@RequestParam String username, @RequestParam String password, @RequestParam String firstName
-            ,@RequestParam String lastName) {
+            ,@RequestParam String lastName, @RequestParam String gender, @RequestParam int height, @RequestParam int weight) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
-        User n = new User();
-        n.setFirstName(firstName);
-        n.setLastName(lastName);
-        n.setPassword(password);
-        n.setUsername(username);
-        userRepository.save(n);
+        User user = new User();
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setPassword(password);
+        user.setUsername(username);
+        user.setGender(gender);
+        user.setHeight(height);
+        user.setWeight(weight);
+
+        userRepository.save(user);
         return "Saved";
-        
+
     }
 
 //    @Autowired
