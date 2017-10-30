@@ -32,6 +32,7 @@ public class RegisterController {
         n.setUsername(username);
         userRepository.save(n);
         return "Saved";
+        
     }
 
 //    @Autowired
