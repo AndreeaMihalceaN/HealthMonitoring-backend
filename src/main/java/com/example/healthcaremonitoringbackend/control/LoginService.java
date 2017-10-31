@@ -12,16 +12,27 @@ public class LoginService {
     private UserRepository userRepository;
 
     @Transactional
-    public UserInfo getUser(User credentials) {
+    //public UserInfo getUser(User credentials) {
+    public User getUser(User credentials) {
         User user = userRepository.findByUsernameAndPassword(credentials.getUsername(), credentials.getPassword());
         if (user != null) {
-            UserInfo response = new UserInfo();
+            //UserInfo response = new UserInfo();
+            User response = new User();
+//            response.setUsername(user.getUsername());
+//            response.setPassword(user.getPassword());
+            response.setId(user.getId());
+            response.setUsername(user.getUsername());
+            response.setPassword(user.getPassword());
             response.setFirstName(user.getFirstName());
             response.setLastName(user.getLastName());
-            response.setUsername(user.getUsername());
+            response.setGender(user.getGender());
+            response.setWeight(user.getWeight());
+            response.setHeight(user.getHeight());
+
             return response;
         }
-        else return new UserInfo();
+        //else return new UserInfo();
+        else return new User();
 //        } else {
 //            throw new ParkingException("Failed login!");
 //        }
@@ -30,8 +41,7 @@ public class LoginService {
     public static class UserInfo{
 
         private String username;
-        private String firstName;
-        private String lastName;
+        private String password;
 
         public String getUsername() {
             return username;
@@ -41,20 +51,12 @@ public class LoginService {
             this.username = username;
         }
 
-        public String getFirstName() {
-            return firstName;
+        public String getPassword() {
+            return password;
         }
 
-        public void setFirstName(String firstName) {
-            this.firstName = firstName;
-        }
-
-        public String getLastName() {
-            return lastName;
-        }
-
-        public void setLastName(String lastName) {
-            this.lastName = lastName;
+        public void setPassword(String password) {
+            this.password = password;
         }
     }
 

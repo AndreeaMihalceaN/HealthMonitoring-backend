@@ -1,3 +1,30 @@
+package com.example.healthcaremonitoringbackend.boundary;
+
+import com.example.healthcaremonitoringbackend.control.LoginService;
+import com.example.healthcaremonitoringbackend.entity.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
+
+@RestController
+public class LoginController {
+
+//    @Autowired
+//    private LoginControlleroginService loginService;
+    private LoginService loginService = new LoginService();
+
+    @PostMapping("/login")
+    public User login(@RequestBody @Valid User user) {
+        //LOG.info("User {} signed in", user.getUsername());
+        return loginService.getUser(user);
+    }
+}
+
 //package com.example.healthcaremonitoringbackend.boundary;
 //
 //import com.example.healthcaremonitoringbackend.control.LoginService;

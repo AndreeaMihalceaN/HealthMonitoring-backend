@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller    // This means that this class is a Controller
 @RequestMapping(path="/register") // This means URL's start with /demo (after Application path)
-@ResponseStatus(HttpStatus.CREATED)
+//@ResponseStatus(HttpStatus.CREATED)
 public class RegisterController {
 
     //private static final Logger LOG = LoggerFactory.getLogger(VacancyController.class);
