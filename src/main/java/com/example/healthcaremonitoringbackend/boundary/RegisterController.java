@@ -40,6 +40,24 @@ public class RegisterController {
 
     }
 
+    @PostMapping(path="/loginUser")
+    public @ResponseBody User getUser(/*@RequestBody @Valid User user*/@RequestParam String username, @RequestParam String password)
+    {
+        return userRepository.findBy(username, password);
+
+    }
+
+    @RequestMapping(path="/log")
+    public @ResponseBody String getUserr(/*@RequestBody @Valid User user*/@RequestParam String username, @RequestParam String password)
+    {
+        User user= userRepository.findBy(username, password);
+
+        //return userRepository.findBy(username, password);
+        if(user.getUsername().equals("Ana"))
+            return "Da";
+        return "nu";
+
+    }
 //    @Autowired
 //    private LoginService loginService;
 //

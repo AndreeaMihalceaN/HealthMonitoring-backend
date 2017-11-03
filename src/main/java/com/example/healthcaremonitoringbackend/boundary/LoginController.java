@@ -6,11 +6,12 @@ import com.example.healthcaremonitoringbackend.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
-@RestController
+@Controller    // This means that this class is a Controller
+@RequestMapping(path="/login")
 public class LoginController {
 
     @Autowired // This means to get the bean called userRepository
@@ -26,12 +27,39 @@ public class LoginController {
 //        return loginService.getUser(user);
 //    }
 
-    @GetMapping(path="/loginUser")
-    public @ResponseBody User getUser(@RequestBody @Valid User user)
+    @PostMapping(path="/loginUser")
+    public @ResponseBody User getUserr(/*@RequestBody @Valid User user*/@RequestParam(name = "user_name") String username, @RequestParam String password)
     {
-        return userRepository.findBy(user.getUsername(), user.getPassword());
+       // User user= userRepository.findBy(username, password);
 
+        return userRepository.findUserByUsernameAndPassword(username, password);
+//        if(user.getUsername().equals("Ana"))
+//        return "Da";
+//        return "nu";
     }
+
+//    @PostMapping(path="/loginUser")
+//    public @ResponseBody String getUser(/*@RequestBody @Valid User user*/@RequestParam String username, @RequestParam String password)
+//    {
+//        User user= userRepository.findBy(username, password);
+//
+//        //return userRepository.findBy(username, password);
+//        if(user.getUsername().equals("Ana"))
+//        return "Da";
+//        return "nu";
+//
+//    }
+
+    @RequestMapping(value = "/user/{username}/{password}", method = RequestMethod.GET)
+    public String getUser(@PathVariable("username") String username, @PathVariable("password") String password) {
+
+        User user = userRepository.findBy(username, password);
+        if (user == null) {
+            return "Nu";
+        }
+        return "Da";
+    }
+
 
 //    Iterable<User> getAllUsers() {
 //        // This returns a JSON or XML with the users
