@@ -52,6 +52,23 @@ public class User {
     @Column(name = "GENDER")
     private String gender;
 
+    @JsonView(Views.Public.class)
+    @NotNull
+    //@Column(name = "null", nullable=false)
+    @Column(name = "EMAIL")
+    private String email;
+
+    @JsonView(Views.Public.class)
+    @NotNull
+    @Column(name = "CONTACTNO")
+    private String contactNo;
+
+
+    @JsonView(Views.Public.class)
+    @NotNull
+    @Column(name = "AGE")
+    private int age;
+
     public Long getId() {
         return id;
     }
@@ -114,5 +131,30 @@ public class User {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getContactNo() {
+        return contactNo;
+    }
+
+    public void setContactNo(String contactNo) {
+        this.contactNo = contactNo;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 }

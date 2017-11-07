@@ -22,6 +22,15 @@ public class RegisterController {
 
     }
 
+//    @PostMapping(path = "/addD")
+//    public @ResponseBody
+//    String addNewUser(@RequestParam String username, @RequestParam String password, @RequestParam String firstName, @RequestParam String lastName, @RequestParam String gender, @RequestParam int height, @RequestParam int weight) {
+//
+////        userRepository.save(user);
+////        return "Saved";
+//
+//    }
+
     @GetMapping(path = "/all")
     public @ResponseBody
     Iterable<User> getAllUsers() {
