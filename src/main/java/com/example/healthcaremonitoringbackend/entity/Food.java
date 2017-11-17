@@ -20,8 +20,8 @@ public class Food {
 
     @JsonView(Views.Public.class)
     @NotNull
-    @Column(name = "FOOD_NAME")
-    private String food_name;
+    @Column(name = "FOODNAME")
+    private String foodname;
 
     @JsonView(Views.Public.class)
     @NotNull
@@ -51,12 +51,12 @@ public class Food {
         this.id = id;
     }
 
-    public String getFood_name() {
-        return food_name;
+    public String getFoodname() {
+        return foodname;
     }
 
-    public void setFood_name(String food_name) {
-        this.food_name = food_name;
+    public void setFoodname(String foodname) {
+        this.foodname = foodname;
     }
 
     public double getCarbohydrates() {
@@ -95,8 +95,8 @@ public class Food {
     {
 
     }
-    public Food(String food_name, double carbohydrates, double proteins, double fats, String category) {
-        this.food_name = food_name;
+    public Food(String foodname, double carbohydrates, double proteins, double fats, String category) {
+        this.foodname = foodname;
         this.carbohydrates = carbohydrates;
         this.proteins = proteins;
         this.fats = fats;

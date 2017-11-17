@@ -11,6 +11,7 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
 
     //Food findFoodByFood_nameAndCarbohydratesAndProteinsAndFatsAndCategory(String food_name, double carbohydrates, double proteins, double fats, String category);
 
-    //Food findFoodByFood_nameAndCarbohydratesAndProteinsAndFatsAndCategory
+    Food findFoodByFoodname(String foodname);
+    //Food findFoodById(Long id);
 
 }
