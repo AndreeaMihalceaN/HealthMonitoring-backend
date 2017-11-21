@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 //@Table(name = "T_FOOD")
@@ -42,6 +43,15 @@ public class Food {
     @NotNull
     @Column(name = "CATEGORY")
     private String category;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "food_day", joinColumns = @JoinColumn(name = "food_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "day_id", referencedColumnName = "id"))
+    private List<Day> days;
+
+    public void addDayIndays(Day day)
+    {
+        this.days.add(day);
+    }
 
     public Long getId() {
         return id;
@@ -89,6 +99,14 @@ public class Food {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public List<Day> getDays() {
+        return days;
+    }
+
+    public void setDays(List<Day> days) {
+        this.days = days;
     }
 
     public Food()
