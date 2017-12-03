@@ -25,9 +25,26 @@ public class FoodController {
 
     }
 
-    @PostMapping(path = "/addd")
+//    @PostMapping(path = "/addd")
+//    public @ResponseBody
+//    String addNewFood2(@RequestParam String foodname, @RequestParam double carbohydrates, @RequestParam double proteins, @RequestParam double fats, @RequestParam String category, @RequestParam String pictureString) {
+//
+//        Food food = new Food();
+//        food.setFoodname(foodname);
+//        food.setCarbohydrates(carbohydrates);
+//        food.setProteins(proteins);
+//        food.setFats(fats);
+//        food.setCategory(category);
+//        food.setPictureString(pictureString);
+//
+//        foodRepository.save(food);
+//        return "Food Saved";
+//
+//    }
+
+    @PostMapping(path = "/add")
     public @ResponseBody
-    String addNewFood2(@RequestParam String foodname, @RequestParam double carbohydrates, @RequestParam double proteins, @RequestParam double fats, @RequestParam String category) {
+    String addNewFood(@RequestParam String foodname, @RequestParam double carbohydrates, @RequestParam double proteins, @RequestParam double fats, @RequestParam String category,@RequestParam String pictureString) {
 
         Food food = new Food();
         food.setFoodname(foodname);
@@ -35,6 +52,7 @@ public class FoodController {
         food.setProteins(proteins);
         food.setFats(fats);
         food.setCategory(category);
+        food.setPictureString(pictureString);
 
         foodRepository.save(food);
         return "Food Saved";

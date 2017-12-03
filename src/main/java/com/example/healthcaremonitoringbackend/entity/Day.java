@@ -9,12 +9,15 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
 import java.util.Calendar;
-import java.util.List;
 import java.util.Set;
 
 @Entity
 public class Day {
+
+
+
     @JsonIgnore
     @Id
     @Column(name = "ID")
@@ -23,26 +26,40 @@ public class Day {
 
     @JsonView(Views.Public.class)
     @NotNull
-    @JsonFormat(pattern = "dd/MM/yyyy", timezone = "EET")
+    @JsonFormat(pattern = "dd-MM-yyyy", timezone = "EET")
     @Column(name = "DATE")
     @Temporal(TemporalType.DATE)
     private Calendar date;
 
-    @ManyToMany(mappedBy = "days")
-    public List<Food> foods;
+//    @OneToMany(mappedBy = "day", cascade = CascadeType.ALL)
+//    private Set<DayFood> listDayFoods;
+
+//    public Set<DayFood> getListDayFoods() {
+//        return listDayFoods;
+//    }
+
+
+//    public void setListDayFoods(Set<DayFood> listDayFoods) {
+//        this.listDayFoods = listDayFoods;
+//    }
+
+//    @ManyToMany(mappedBy = "days")
+//    private List<Food> foods;
 
     public Day() {
 
+        //this.foods= new ArrayList<Food>();
     }
 
     public Day(Calendar date) {
         this.date = date;
+        //this.foods= new ArrayList<Food>();
     }
 
-    public void addFoodInFoods(Food food)
-    {
-        this.foods.add(food);
-    }
+//    public void addFoodInFoods(Food food)
+//    {
+//        this.foods.add(food);
+//    }
 
     public Long getId() {
         return id;
@@ -60,11 +77,20 @@ public class Day {
         this.date = date;
     }
 
-    public List<Food> getFoods() {
-        return foods;
-    }
+//    public List<Food> getFoods() {
+//        return foods;
+//    }
 
-    public void setFoods(List<Food> foods) {
-        this.foods = foods;
-    }
+//    public void setFoods(List<Food> foods) {
+//        this.foods = foods;
+//    }
+
+//    @Override
+//    public String toString() {
+//        return "Day{" +
+//                "id=" + id +
+//                ", date=" + date +
+//                ", foods=" + foods +
+//                '}';
+//    }
 }
