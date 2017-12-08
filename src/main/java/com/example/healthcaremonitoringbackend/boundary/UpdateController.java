@@ -44,7 +44,30 @@ public class UpdateController {
 
     }
 
+    @PostMapping(path = "/updateWeightHeight")
+    public @ResponseBody
+    String updateUserWH(@RequestBody User user) {
 
+        User oldUser= userRepository.findUserByUsernameAndPassword(user.getUsername(), user.getPassword());
+        oldUser.setHeight(user.getHeight());
+        oldUser.setWeight(user.getWeight());
+        userRepository.save(oldUser);
+        return "Updated height and width";
+
+    }
+
+    @PostMapping(path = "/updatee2")
+    public @ResponseBody
+    String updateUser22(@RequestParam String username, @RequestParam String password, @RequestParam int height,@RequestParam int weight) {
+
+        User oldUser= userRepository.findUserByUsernameAndPassword(username, password);
+        oldUser.setHeight(height);
+        oldUser.setWeight(weight);
+
+        userRepository.save(oldUser);
+        return "Updated user hight and width";
+
+    }
 
     @PostMapping(path = "/updatee")
     public @ResponseBody
