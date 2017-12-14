@@ -44,7 +44,7 @@ public class FoodController {
 
     @PostMapping(path = "/add")
     public @ResponseBody
-    String addNewFood(@RequestParam String foodname, @RequestParam double carbohydrates, @RequestParam double proteins, @RequestParam double fats, @RequestParam String category,@RequestParam String pictureString) {
+    String addNewFood(@RequestParam String foodname, @RequestParam double carbohydrates, @RequestParam double proteins, @RequestParam double fats, @RequestParam String category,@RequestParam String pictureString, @RequestParam int stars) {
 
         Food food = new Food();
         food.setFoodname(foodname);
@@ -53,6 +53,7 @@ public class FoodController {
         food.setFats(fats);
         food.setCategory(category);
         food.setPictureString(pictureString);
+        food.setStars(stars);
 
         foodRepository.save(food);
         return "Food Saved";

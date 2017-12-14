@@ -51,6 +51,13 @@ public class Food {
     @Column(name = "PICTURESTRING")
     private String pictureString;
 
+    @JsonView(Views.Public.class)
+    @NotNull
+    @Column(name = "STARS")
+    private int stars;
+
+
+
 //    @ManyToMany(cascade = CascadeType.ALL)
 //    @ManyToMany(fetch = FetchType.LAZY)
 //    @JoinTable(name = "food_day", joinColumns = @JoinColumn(name = "food_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "day_id", referencedColumnName = "id"))
@@ -129,6 +136,14 @@ public class Food {
         this.pictureString = pictureString;
     }
 
+    public int getStars() {
+        return stars;
+    }
+
+    public void setStars(int stars) {
+        this.stars = stars;
+    }
+
     //    public List<Day> getDays() {
 //        return days;
 //    }
@@ -159,8 +174,17 @@ public class Food {
         //this.days= new ArrayList<Day>();
     }
 
+    public Food(String foodname, double carbohydrates, double proteins, double fats, String category, String pictureString, int stars) {
+        this.foodname = foodname;
+        this.carbohydrates = carbohydrates;
+        this.proteins = proteins;
+        this.fats = fats;
+        this.category = category;
+        this.pictureString = pictureString;
+        this.stars = stars;
+    }
 
-//
+    //
 //    @Override
 //    public String toString() {
 //        return "Food{" +
