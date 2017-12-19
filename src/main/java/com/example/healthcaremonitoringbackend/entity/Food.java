@@ -56,6 +56,11 @@ public class Food {
     @Column(name = "STARS")
     private int stars;
 
+    @JsonView(Views.Public.class)
+    @NotNull
+    @Column(name = "URL")
+    private String url;
+
 
 
 //    @ManyToMany(cascade = CascadeType.ALL)
@@ -144,6 +149,14 @@ public class Food {
         this.stars = stars;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     //    public List<Day> getDays() {
 //        return days;
 //    }
@@ -172,6 +185,17 @@ public class Food {
         this.fats = fats;
         this.category = category;
         //this.days= new ArrayList<Day>();
+    }
+
+    public Food(String foodname, double carbohydrates, double proteins, double fats, String category, String pictureString, int stars, String url) {
+        this.foodname = foodname;
+        this.carbohydrates = carbohydrates;
+        this.proteins = proteins;
+        this.fats = fats;
+        this.category = category;
+        this.pictureString = pictureString;
+        this.stars = stars;
+        this.url = url;
     }
 
     public Food(String foodname, double carbohydrates, double proteins, double fats, String category, String pictureString, int stars) {
