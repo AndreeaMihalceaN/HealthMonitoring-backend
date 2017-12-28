@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface UserDiaryRepository  extends JpaRepository<UserDiary, Long> {
     UserDiary findUserDiaryByDayFoodAndUser(DayFood dayFood, User user);
+    UserDiary findUserDiaryById(Long id);
 }

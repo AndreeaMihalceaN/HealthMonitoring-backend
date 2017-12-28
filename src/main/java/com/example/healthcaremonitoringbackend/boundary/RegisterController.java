@@ -37,4 +37,12 @@ public class RegisterController {
         // This returns a JSON or XML with the users
         return userRepository.findAll();
     }
+
+    @PostMapping(path = "/searchUser")
+    public @ResponseBody
+    User getUser(@RequestParam String username, @RequestParam String firstName, @RequestParam String lastName, @RequestParam String password, @RequestParam String gender, @RequestParam String email) {
+        return userRepository.findUserByUsernameAndFirstNameAndLastNameAndPasswordAndGenderAndEmail(username, firstName, lastName, password, gender, email);
+    }
+
+
 }
