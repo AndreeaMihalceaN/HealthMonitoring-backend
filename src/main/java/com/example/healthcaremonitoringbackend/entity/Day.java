@@ -16,9 +16,8 @@ import java.util.Set;
 @Entity
 public class Day {
 
-
-
-    @JsonIgnore
+    //@JsonIgnore
+    @JsonView(Views.Public.class)
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,7 +30,7 @@ public class Day {
     @Temporal(TemporalType.DATE)
     private Calendar date;
 
-//    @OneToMany(mappedBy = "day", cascade = CascadeType.ALL)
+    //@OneToMany(mappedBy = "day", cascade = CascadeType.ALL)
 //    private Set<DayFood> listDayFoods;
 
 //    public Set<DayFood> getListDayFoods() {

@@ -12,7 +12,8 @@ import javax.validation.constraints.Size;
 //@Table(name = "T_USER")
 public class User {
 
-    @JsonIgnore
+    //@JsonIgnore
+    @JsonView(Views.Public.class)
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)

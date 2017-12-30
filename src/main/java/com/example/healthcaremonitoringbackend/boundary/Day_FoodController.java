@@ -1,9 +1,6 @@
 package com.example.healthcaremonitoringbackend.boundary;
 
-import com.example.healthcaremonitoringbackend.entity.Day;
-import com.example.healthcaremonitoringbackend.entity.DayFood;
-import com.example.healthcaremonitoringbackend.entity.Food;
-import com.example.healthcaremonitoringbackend.entity.User;
+import com.example.healthcaremonitoringbackend.entity.*;
 import com.example.healthcaremonitoringbackend.repository.DayRepository;
 import com.example.healthcaremonitoringbackend.repository.Day_FoodRepository;
 import com.example.healthcaremonitoringbackend.repository.FoodRepository;
@@ -83,4 +80,29 @@ public class Day_FoodController {
         }
         return foodList;
     }
+
+    @PostMapping(path = "/searchDayFood")
+    public @ResponseBody
+    DayFood getDayFood(@RequestParam String dateString, @RequestParam String foodname) throws ParseException {
+        // This returns a JSON or XML with the users
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(df.parse(dateString));
+        Day day =dayRepository.findDayByDate(cal);
+
+        Food food= foodRepository.findFoodByFoodname(foodname);
+
+        return day_FoodRepository.findDayFoodByDayAndFood(day, food);
+    }
+
+    //Don't work because I have foreign key
+//    @PostMapping(path = "/delete")
+//    public @ResponseBody
+//    String deleteDayFood(@RequestParam Long idDayFood){
+//        DayFood dayFood= day_FoodRepository.findDayFoodById(idDayFood);
+//        day_FoodRepository.delete(dayFood);
+//
+//        return "DayFood deleted";
+//
+//    }
 }

@@ -109,4 +109,30 @@ public class UserDiaryController {
 
     }
 
+    @PostMapping(path = "/searchUserDiary")
+    public @ResponseBody
+    UserDiary getUserDiary(@RequestParam DayFood dayFood, @RequestParam User user) throws ParseException {
+
+        return userDiaryRepository.findUserDiaryByDayFoodAndUser(dayFood, user);
+    }
+
+    @PostMapping(path = "/searchUserDiary2")
+    public @ResponseBody
+    UserDiary getUserDiary(@RequestParam Long idDayFood, @RequestParam String username) throws ParseException {
+
+        DayFood dayFood= day_FoodRepository.findDayFoodById(idDayFood);
+        User user = userRepository.findUserByUsername(username);
+        return userDiaryRepository.findUserDiaryByDayFoodAndUser(dayFood, user);
+    }
+
+    @PostMapping(path = "/delete")
+    public @ResponseBody
+    String deleteUserDiary(@RequestParam Long idUserDiary){
+        UserDiary userDiary= userDiaryRepository.findUserDiaryById(idUserDiary);
+        userDiaryRepository.delete(userDiary);
+
+        return "UserDiary deleted";
+
+    }
+
 }

@@ -15,7 +15,8 @@ import java.util.Set;
 //@Table(name = "T_FOOD")
 public class Food {
 
-    @JsonIgnore
+    //@JsonIgnore
+    @JsonView(Views.Public.class)
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)

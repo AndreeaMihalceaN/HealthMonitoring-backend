@@ -13,7 +13,8 @@ import java.util.Calendar;
 @Entity
 public class DayFood {
 
-    @JsonIgnore
+    //@JsonIgnore
+    @JsonView(Views.Public.class)
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)

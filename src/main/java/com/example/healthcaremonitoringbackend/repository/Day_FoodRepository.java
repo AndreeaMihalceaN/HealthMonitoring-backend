@@ -12,4 +12,5 @@ public interface Day_FoodRepository  extends JpaRepository<DayFood, Long> {
 
     List<DayFood>findAllByDay(Day day);
     DayFood findDayFoodByDayAndFood(Day date, Food foodname);
+    DayFood findDayFoodById(Long id);
 }
