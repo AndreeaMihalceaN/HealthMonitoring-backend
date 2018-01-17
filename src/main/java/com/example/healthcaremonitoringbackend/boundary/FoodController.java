@@ -75,6 +75,13 @@ public class FoodController {
         return foodRepository.findFoodByFoodname(foodname);//foodRepository.findFoodById(food.getId());//foodRepository.findFoodByFood_name(food.getFood_name()); //foodRepository.findFoodByFood_nameAndCarbohydratesAndProteinsAndFatsAndCategory(food.getFood_name(), food.getCarbohydrates(), food.getProteins(), food.getFats(), food.getCategory());
     }
 
+    @PostMapping(path = "/searchFoodById")
+    public @ResponseBody
+        //@RequestParam(name = "user_name") String username, @RequestParam String password
+    Food getFoodById(@RequestParam Long id) {
+        return foodRepository.findFoodById(id);//foodRepository.findFoodById(food.getId());//foodRepository.findFoodByFood_name(food.getFood_name()); //foodRepository.findFoodByFood_nameAndCarbohydratesAndProteinsAndFatsAndCategory(food.getFood_name(), food.getCarbohydrates(), food.getProteins(), food.getFats(), food.getCategory());
+    }
+
     @GetMapping(path = "/all")
     public @ResponseBody
     List<Food> getAllFoods() {

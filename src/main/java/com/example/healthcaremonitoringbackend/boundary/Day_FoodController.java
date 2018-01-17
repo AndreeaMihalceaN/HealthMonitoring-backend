@@ -43,18 +43,18 @@ public class Day_FoodController {
 
     @PostMapping(path = "/addByDateStringAndFoodName")
     public @ResponseBody
-    String addNewDay_Food2(@RequestParam String dateString,@RequestParam String nameFood) throws ParseException {
+    String addNewDay_Food2(@RequestParam String dateString, @RequestParam String nameFood) throws ParseException {
 
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         Calendar cal = Calendar.getInstance();
         cal.setTime(df.parse(dateString));
-        Day day =dayRepository.findDayByDate(cal);
+        Day day = dayRepository.findDayByDate(cal);
 
         Food food = foodRepository.findFoodByFoodname(nameFood);
 
         DayFood day_food = new DayFood();
-        day_food.setDay(day);
-        day_food.setFood(food);
+        day_food.setDayId(day.getId());
+        day_food.setFoodId(food.getId());
         day_FoodRepository.save(day_food);
 
         return "Day_Food Saved";
@@ -68,14 +68,14 @@ public class Day_FoodController {
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         Calendar cal = Calendar.getInstance();
         cal.setTime(df.parse(dateString));
-        Day day =dayRepository.findDayByDate(cal);
+        Day day = dayRepository.findDayByDate(cal);
 
-        List<DayFood>listDayFood= day_FoodRepository.findAllByDay(day);
-        List<Food>foodList=new ArrayList<>();
+        List<DayFood> listDayFood = day_FoodRepository.findAllByDayId(day.getId());
+        List<Food> foodList = new ArrayList<>();
 
-        for(DayFood dayFood: listDayFood)
-        {
-            Food foodFromDay=foodRepository.findFoodByFoodname(dayFood.getFood().getFoodname());
+        for (DayFood dayFood : listDayFood) {
+            Food food= foodRepository.findFoodById(dayFood.getFoodId());
+            Food foodFromDay = foodRepository.findFoodByFoodname(food.getFoodname());
             foodList.add(foodFromDay);
         }
         return foodList;
@@ -88,11 +88,29 @@ public class Day_FoodController {
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         Calendar cal = Calendar.getInstance();
         cal.setTime(df.parse(dateString));
-        Day day =dayRepository.findDayByDate(cal);
+        Day day = dayRepository.findDayByDate(cal);
 
-        Food food= foodRepository.findFoodByFoodname(foodname);
+        Food food = foodRepository.findFoodByFoodname(foodname);
 
-        return day_FoodRepository.findDayFoodByDayAndFood(day, food);
+        return day_FoodRepository.findDayFoodByDayIdAndFoodId(day.getId(), food.getId());
+    }
+
+    @PostMapping(path = "/delete")
+    public @ResponseBody
+    String deleteDayFood(@RequestParam String dateString, @RequestParam String foodName) throws ParseException {
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(df.parse(dateString));
+        Day day = dayRepository.findDayByDate(cal);
+
+        Food food = foodRepository.findFoodByFoodname(foodName);
+
+        DayFood dayFood = day_FoodRepository.findDayFoodByDayIdAndFoodId(day.getId(), food.getId());
+
+        day_FoodRepository.delete(dayFood);
+
+        return "Deleted dayFood";
+
     }
 
     //Don't work because I have foreign key

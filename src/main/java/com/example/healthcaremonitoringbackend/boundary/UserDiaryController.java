@@ -47,7 +47,7 @@ public class UserDiaryController {
 
         Day day = dayRepository.findDayByDate(cal);
         Food food = foodRepository.findFoodByFoodname(nameFood);
-        DayFood dayFood = day_FoodRepository.findDayFoodByDayAndFood(day, food);
+        DayFood dayFood = day_FoodRepository.findDayFoodByDayIdAndFoodId(day.getId(), food.getId());
         UserDiary userDiary = new UserDiary();
         userDiary.setDayFood(dayFood);
         userDiary.setUser(user);
@@ -69,11 +69,17 @@ public class UserDiaryController {
 
         Day day = dayRepository.findDayByDate(cal);
         Food food = foodRepository.findFoodByFoodname(nameFood);
-        DayFood dayFood = day_FoodRepository.findDayFoodByDayAndFood(day, food);
+        if(day!=null && food!=null)
+        if (day_FoodRepository.findDayFoodByDayIdAndFoodId(day.getId(), food.getId()) != null) {
+            DayFood dayFood = day_FoodRepository.findDayFoodByDayIdAndFoodId(day.getId(), food.getId());
 
-        UserDiary userDiaryForReturn = userDiaryRepository.findUserDiaryByDayFoodAndUser(dayFood, user);
 
-        return userDiaryForReturn;
+            UserDiary userDiaryForReturn = userDiaryRepository.findUserDiaryByDayFoodAndUser(dayFood, user);
+
+
+            return userDiaryForReturn;
+        }
+        return null;
     }
 
     @PostMapping(path = "/allUserDiaryAfterDayAndUser")
@@ -86,7 +92,7 @@ public class UserDiaryController {
         cal.setTime(df.parse(dateString));
         Day day = dayRepository.findDayByDate(cal);
 
-        List<DayFood> listDayFood = day_FoodRepository.findAllByDay(day);
+        List<DayFood> listDayFood = day_FoodRepository.findAllByDayId(day.getId());
         User user = userRepository.findUserByUsername(username);
 
         for (DayFood dayFood : listDayFood) {
@@ -101,10 +107,29 @@ public class UserDiaryController {
     public @ResponseBody
     String updateUserDiaryQuantity(@RequestParam double quantity, @RequestParam Long id) {
 
-        UserDiary oldUserDiary= userDiaryRepository.findUserDiaryById(id);
+        UserDiary oldUserDiary = userDiaryRepository.findUserDiaryById(id);
         oldUserDiary.setQuantity(quantity);
 
         userDiaryRepository.save(oldUserDiary);
+        return "Updated quantity for an existing userDiary";
+
+    }
+
+    @PostMapping(path = "/updateUserDiaryQuantity")
+    public @ResponseBody
+    String updateUserDiaryQuantity2(@RequestParam double quantity, @RequestParam String dateString, String foodName, String username) throws ParseException {
+
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(df.parse(dateString));
+
+        Day day = dayRepository.findDayByDate(cal);
+        Food food= foodRepository.findFoodByFoodname(foodName);
+        DayFood dayFood= day_FoodRepository.findDayFoodByDayIdAndFoodId(day.getId(), food.getId());
+        User user = userRepository.findUserByUsername(username);
+        UserDiary userDiary= userDiaryRepository.findUserDiaryByDayFoodAndUser(dayFood, user);
+        userDiary.setQuantity(quantity);
+        userDiaryRepository.save(userDiary);
         return "Updated quantity for an existing userDiary";
 
     }
@@ -120,18 +145,52 @@ public class UserDiaryController {
     public @ResponseBody
     UserDiary getUserDiary(@RequestParam Long idDayFood, @RequestParam String username) throws ParseException {
 
-        DayFood dayFood= day_FoodRepository.findDayFoodById(idDayFood);
+        DayFood dayFood = day_FoodRepository.findDayFoodById(idDayFood);
         User user = userRepository.findUserByUsername(username);
         return userDiaryRepository.findUserDiaryByDayFoodAndUser(dayFood, user);
     }
 
     @PostMapping(path = "/delete")
     public @ResponseBody
-    String deleteUserDiary(@RequestParam Long idUserDiary){
-        UserDiary userDiary= userDiaryRepository.findUserDiaryById(idUserDiary);
+    String deleteUserDiary(@RequestParam Long idUserDiary) {
+        UserDiary userDiary = userDiaryRepository.findUserDiaryById(idUserDiary);
         userDiaryRepository.delete(userDiary);
 
         return "UserDiary deleted";
+
+    }
+
+    @PostMapping(path = "/getAllFoodsFromThisDay")
+    public @ResponseBody
+    List<Food> getFoods(@RequestParam String dateString, @RequestParam String username) throws ParseException {
+
+        List<DayFood> dayFoodList = new ArrayList<>();
+        List<Food> foodList = new ArrayList<>();
+
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(df.parse(dateString));
+        if (dayRepository.findDayByDate(cal) != null) {
+            Day day = dayRepository.findDayByDate(cal);
+
+            User user = userRepository.findUserByUsername(username);
+            List<UserDiary> listUserDiary = userDiaryRepository.findAllByUser(user);
+
+            for (UserDiary userdiary : listUserDiary) {
+
+                dayFoodList.add(userdiary.getDayFood());
+            }
+
+            for (DayFood dayFood : dayFoodList) {
+                if (dayFood.getDayId() == day.getId()) {
+                    Food myFood = foodRepository.findFoodById(dayFood.getFoodId());
+                    foodList.add(myFood);
+                }
+
+            }
+        }
+
+        return foodList;
 
     }
 

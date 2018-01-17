@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface Day_FoodRepository  extends JpaRepository<DayFood, Long> {
 
-    List<DayFood>findAllByDay(Day day);
-    DayFood findDayFoodByDayAndFood(Day date, Food foodname);
+    List<DayFood>findAllByDayId(Long dayId);
+    DayFood findDayFoodByDayIdAndFoodId(Long dayId, Long foodId);
     DayFood findDayFoodById(Long id);
 }

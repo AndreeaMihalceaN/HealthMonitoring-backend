@@ -69,6 +69,19 @@ public class UpdateController {
 
     }
 
+    @PostMapping(path = "/updateAutentificationDates")
+    public @ResponseBody
+    String updateUserAutentification(@RequestParam String username, @RequestParam String password, @RequestParam String newUsername,@RequestParam String newPassword) {
+
+        User oldUser= userRepository.findUserByUsernameAndPassword(username, password);
+        oldUser.setUsername(newUsername);
+        oldUser.setPassword(newPassword);
+
+        userRepository.save(oldUser);
+        return "Updated autentification dates";
+
+    }
+
     @PostMapping(path = "/updatee")
     public @ResponseBody
     String updateUser2(@RequestParam(name = "user_name") String username, @RequestParam String password, @RequestParam String firstName, @RequestParam String lastName, @RequestParam String gender, @RequestParam int height, @RequestParam int weight, @RequestParam int age, @RequestParam String email, @RequestParam String contactNo) {

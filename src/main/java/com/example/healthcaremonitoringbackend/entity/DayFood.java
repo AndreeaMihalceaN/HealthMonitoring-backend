@@ -20,33 +20,43 @@ public class DayFood {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "day_id")
-    private Day day;
+    @JsonView(Views.Public.class)
+    @NotNull
+    @Column(name = "DAYID")
+    private Long dayId;
 
-    @ManyToOne
-    @JoinColumn(name = "food_id")
-    private Food food;
+    @JsonView(Views.Public.class)
+    @NotNull
+    @Column(name = "FOODID")
+    private Long foodId;
 
-    public Day getDay() {
-        return day;
+    public DayFood(Long dayId, Long foodId) {
+        this.dayId = dayId;
+        this.foodId = foodId;
     }
 
-    public void setDay(Day day) {
-        this.day = day;
+    public Long getId() {
+        return id;
     }
 
-    public Food getFood() {
-        return food;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setFood(Food food) {
-        this.food = food;
+    public Long getDayId() {
+        return dayId;
     }
 
-    public DayFood(Day day, Food food) {
-        this.day = day;
-        this.food = food;
+    public void setDayId(Long dayId) {
+        this.dayId = dayId;
+    }
+
+    public Long getFoodId() {
+        return foodId;
+    }
+
+    public void setFoodId(Long foodId) {
+        this.foodId = foodId;
     }
 
     public DayFood() {

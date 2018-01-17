@@ -14,7 +14,7 @@ public class LoginService {
     @Transactional
     //public UserInfo getUser(User credentials) {
     public User getUser(User credentials) {
-        User user = userRepository.findByUsernameAndPassword(credentials.getUsername(), credentials.getPassword());
+        User user = userRepository.findUserByUsernameAndPassword(credentials.getUsername(), credentials.getPassword());
         if (user != null) {
             //UserInfo response = new UserInfo();
             User response = new User();
