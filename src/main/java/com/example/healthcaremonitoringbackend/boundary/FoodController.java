@@ -86,6 +86,19 @@ public class FoodController {
     public @ResponseBody
     List<Food> getAllFoods() {
         // This returns a JSON or XML with the users
+
         return foodRepository.findAll();
+
     }
+//    @GetMapping(path = "/allForSuggestion")
+//    public @ResponseBody
+//    List<Food> getAllFoods2() {
+//        // This returns a JSON or XML with the users
+//        List<Food>foodList=foodRepository.findAll();
+//        for(Food food : foodList)
+//            if(food.getPictureString().toString().equals("healthyfood"))
+//                foodList.remove(food);
+//        //return foodRepository.findAll();
+//        return foodList;
+//    }
 }

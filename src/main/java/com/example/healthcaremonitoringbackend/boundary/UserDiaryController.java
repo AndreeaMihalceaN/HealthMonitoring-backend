@@ -2,6 +2,7 @@ package com.example.healthcaremonitoringbackend.boundary;
 
 
 import com.example.healthcaremonitoringbackend.entity.*;
+import com.example.healthcaremonitoringbackend.model.QuantityFood;
 import com.example.healthcaremonitoringbackend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -69,16 +70,16 @@ public class UserDiaryController {
 
         Day day = dayRepository.findDayByDate(cal);
         Food food = foodRepository.findFoodByFoodname(nameFood);
-        if(day!=null && food!=null)
-        if (day_FoodRepository.findDayFoodByDayIdAndFoodId(day.getId(), food.getId()) != null) {
-            DayFood dayFood = day_FoodRepository.findDayFoodByDayIdAndFoodId(day.getId(), food.getId());
+        if (day != null && food != null)
+            if (day_FoodRepository.findDayFoodByDayIdAndFoodId(day.getId(), food.getId()) != null) {
+                DayFood dayFood = day_FoodRepository.findDayFoodByDayIdAndFoodId(day.getId(), food.getId());
 
 
-            UserDiary userDiaryForReturn = userDiaryRepository.findUserDiaryByDayFoodAndUser(dayFood, user);
+                UserDiary userDiaryForReturn = userDiaryRepository.findUserDiaryByDayFoodAndUser(dayFood, user);
 
 
-            return userDiaryForReturn;
-        }
+                return userDiaryForReturn;
+            }
         return null;
     }
 
@@ -124,10 +125,10 @@ public class UserDiaryController {
         cal.setTime(df.parse(dateString));
 
         Day day = dayRepository.findDayByDate(cal);
-        Food food= foodRepository.findFoodByFoodname(foodName);
-        DayFood dayFood= day_FoodRepository.findDayFoodByDayIdAndFoodId(day.getId(), food.getId());
+        Food food = foodRepository.findFoodByFoodname(foodName);
+        DayFood dayFood = day_FoodRepository.findDayFoodByDayIdAndFoodId(day.getId(), food.getId());
         User user = userRepository.findUserByUsername(username);
-        UserDiary userDiary= userDiaryRepository.findUserDiaryByDayFoodAndUser(dayFood, user);
+        UserDiary userDiary = userDiaryRepository.findUserDiaryByDayFoodAndUser(dayFood, user);
         userDiary.setQuantity(quantity);
         userDiaryRepository.save(userDiary);
         return "Updated quantity for an existing userDiary";
@@ -192,6 +193,34 @@ public class UserDiaryController {
 
         return foodList;
 
+    }
+
+    @PostMapping(path = "/getQuantityFoodTodayFromUser")
+    public @ResponseBody
+    List<QuantityFood> getQuantityFood(@RequestParam String dateString, String username) throws ParseException {
+
+        List<UserDiary> userDiaryList = new ArrayList<>();
+        List<QuantityFood> quantityFoodList = new ArrayList<>();
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(df.parse(dateString));
+        Day day = dayRepository.findDayByDate(cal);
+
+        List<DayFood> listDayFood = day_FoodRepository.findAllByDayId(day.getId());
+        User user = userRepository.findUserByUsername(username);
+
+        for (DayFood dayFood : listDayFood) {
+            UserDiary userDiary = userDiaryRepository.findUserDiaryByDayFoodAndUser(dayFood, user);
+            if (userDiary != null)
+                userDiaryList.add(userDiary);
+        }
+
+        for (UserDiary userDiaryItem : userDiaryList) {
+            Food foodSelected = foodRepository.findFoodById(userDiaryItem.getDayFood().getFoodId());
+            quantityFoodList.add(new QuantityFood(foodSelected, userDiaryItem.getQuantity()));
+
+        }
+        return quantityFoodList;
     }
 
 }
