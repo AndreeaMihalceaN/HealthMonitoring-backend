@@ -21,13 +21,21 @@ public class WeightStatistics {
 
     @JsonView(Views.Public.class)
     @NotNull
+    @Column(name = "DAYID")
+    private Long dayId;
+
+
+    @JsonView(Views.Public.class)
+    @NotNull
     @Column(name = "currentWeight")
     private double currentWeight;
 
-    public WeightStatistics(Long userId, double currentWeight) {
+    public WeightStatistics(Long userId, Long dayId, double currentWeight) {
         this.userId = userId;
+        this.dayId = dayId;
         this.currentWeight = currentWeight;
     }
+
     public WeightStatistics()
     {
 
@@ -55,5 +63,13 @@ public class WeightStatistics {
 
     public void setCurrentWeight(double currentWeight) {
         this.currentWeight = currentWeight;
+    }
+
+    public Long getDayId() {
+        return dayId;
+    }
+
+    public void setDayId(Long dayId) {
+        this.dayId = dayId;
     }
 }

@@ -9,5 +9,7 @@ import java.util.Calendar;
 public interface DayRepository  extends JpaRepository<Day, Long>{
 
     Day findDayByDate(Calendar date);
+    Day findDayById(Long id);
+
 
 }
