@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,10 +40,11 @@ public class WeightStatisticsRepositoryController {
 
     @PostMapping(path = "/dayWeightForUser")
     public @ResponseBody
-    Set<DayWeight> getDayWeight(@RequestParam Long userId) throws ParseException {
+    List<DayWeight> getDayWeight(@RequestParam Long userId) throws ParseException {
 
         List<WeightStatistics> weightStatisticsList = weightStatisticsRepository.findWeightStatisticsByUserId(userId);
-        Set<DayWeight> dayWeightSet = new HashSet<>();
+        //Set<DayWeight> dayWeightSet = new HashSet<>();
+        List<DayWeight> dayWeightSet = new ArrayList<>();
         for (WeightStatistics weightStatistics : weightStatisticsList) {
             Day day = dayRepository.findDayById(weightStatistics.getDayId());
             dayWeightSet.add(new DayWeight(day, weightStatistics.getCurrentWeight()));
