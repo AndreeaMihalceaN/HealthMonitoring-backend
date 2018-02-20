@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @Controller
 @RequestMapping(path = "/dailyStatistics")
@@ -28,12 +30,13 @@ public class DailyStatisticsController {
 
     @PostMapping(path = "/add2")
     public @ResponseBody
-    String addNewFood(@RequestParam Long dayId, @RequestParam double totalCalories, @RequestParam Long userId) {
+    String addNewFood(@RequestParam Long dayId, @RequestParam double totalCalories, @RequestParam Long userId, @RequestParam double steps) {
 
         DailyStatistics dailyStatistics = new DailyStatistics();
         dailyStatistics.setDayId(dayId);
         dailyStatistics.setTotalCalories(totalCalories);
         dailyStatistics.setUserId(userId);
+        dailyStatistics.setSteps(steps);
 
         dailyStatisticsRepository.save(dailyStatistics);
         return "DailyStatistics object Saved";
@@ -58,6 +61,13 @@ public class DailyStatisticsController {
         //@RequestParam(name = "user_name") String username, @RequestParam String password
     DailyStatistics getDailyStatistics(@RequestParam Long userId, @RequestParam Long dayId) {
         return dailyStatisticsRepository.findDailyStatisticsByDayIdAndUserId(dayId, userId);
+    }
+
+    @PostMapping(path = "/searchDailyStatisticsByUserId")
+    public @ResponseBody
+        //@RequestParam(name = "user_name") String username, @RequestParam String password
+    List<DailyStatistics> getDailyStatisticsByUserId(@RequestParam Long userId) {
+        return dailyStatisticsRepository.findDailyStatisticsByUserId(userId);
     }
 
 

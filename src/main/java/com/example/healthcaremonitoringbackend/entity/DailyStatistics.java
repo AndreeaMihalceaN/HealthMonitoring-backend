@@ -30,6 +30,12 @@ public class DailyStatistics {
     @Column(name = "TOTALCALORIES")
     private double totalCalories;
 
+    @JsonView(Views.Public.class)
+    @NotNull
+    @Column(name = "STEPS")
+    private double steps;
+
+
     public DailyStatistics(Long userId, Long dayId, double totalCalories) {
         this.userId = userId;
         this.dayId = dayId;
@@ -70,5 +76,13 @@ public class DailyStatistics {
 
     public void setTotalCalories(double totalCalories) {
         this.totalCalories = totalCalories;
+    }
+
+    public double getSteps() {
+        return steps;
+    }
+
+    public void setSteps(double steps) {
+        this.steps = steps;
     }
 }
