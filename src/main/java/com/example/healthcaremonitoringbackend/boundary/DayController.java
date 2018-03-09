@@ -65,6 +65,23 @@ public class DayController {
         return dayRepository.findDayByDate(cal);
     }
 
+    @PostMapping(path = "/searchDayById")
+    public @ResponseBody
+        //@RequestParam(name = "user_name") String username, @RequestParam String password
+    Day getDay(@RequestParam Long id) throws ParseException {
+        return dayRepository.findDayById(id);
+    }
+
+
+    @GetMapping(path = "/all")
+    public @ResponseBody
+    List<Day> getAllFoods() {
+        // This returns a JSON or XML with the users
+
+        return dayRepository.findAll();
+
+    }
+
 //    @PostMapping(path = "/updateDay")
 //    public @ResponseBody
 //    String updateDay(@RequestBody Day day) {
