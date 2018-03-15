@@ -44,5 +44,11 @@ public class RegisterController {
         return userRepository.findUserByUsernameAndFirstNameAndLastNameAndPasswordAndGenderAndEmail(username, firstName, lastName, password, gender, email);
     }
 
+    @PostMapping(path = "/searchUserByUsername")
+    public @ResponseBody
+    User getUser(@RequestParam String username) {
+        return userRepository.findUserByUsername(username);
+    }
+
 
 }

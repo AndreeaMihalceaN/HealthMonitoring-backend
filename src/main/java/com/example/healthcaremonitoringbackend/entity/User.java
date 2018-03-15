@@ -70,6 +70,11 @@ public class User {
     @Column(name = "AGE")
     private int age;
 
+    @JsonView(Views.Public.class)
+    @NotNull
+    @Column(name = "STEPSOBJECTIVE")
+    private double stepsObjective;
+
     public Long getId() {
         return id;
     }
@@ -159,4 +164,11 @@ public class User {
         this.age = age;
     }
 
+    public double getStepsObjective() {
+        return stepsObjective;
+    }
+
+    public void setStepsObjective(double stepsObjective) {
+        this.stepsObjective = stepsObjective;
+    }
 }

@@ -101,4 +101,15 @@ public class UpdateController {
         return "Updated user";
 
     }
+
+    @PostMapping(path = "/updateStepsObjective")
+    public @ResponseBody
+    String updateStepsObjective(@RequestParam String username, @RequestParam String password, @RequestParam double stepsObjective) {
+
+        User oldUser= userRepository.findUserByUsernameAndPassword(username, password);
+        oldUser.setStepsObjective(stepsObjective);
+        userRepository.save(oldUser);
+        return "Updated steps objective";
+
+    }
 }
