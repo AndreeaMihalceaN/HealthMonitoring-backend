@@ -1,3 +1,4 @@
+DROP DATABASE `db_health`;
 CREATE DATABASE  IF NOT EXISTS `db_health` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `db_health`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)

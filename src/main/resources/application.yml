@@ -1,7 +1,10 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
+    properties.javax.persistence.schema-generation.scripts:
+      create-target: schema.sql
+      action: create
   datasource:
     url: @database.url@
     username: @database.user@
