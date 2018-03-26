@@ -1,6 +1,6 @@
 spring:
   jpa.hibernate:
-    ddl-auto: update
+    ddl-auto: none
   datasource:
     url: @database.url@
     username: @database.user@
