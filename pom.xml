@@ -78,12 +78,6 @@
                     <include>**/application.yml</include>
                 </includes>
             </resource>
-            <resource>
-                <directory>${basedir}/src/main/resources</directory>
-                <includes>
-                    <include>**/schema.sql</include>
-                </includes>
-            </resource>
         </resources>
 
         <plugins>
