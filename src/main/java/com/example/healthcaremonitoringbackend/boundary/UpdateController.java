@@ -7,9 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 @Controller
 @RequestMapping(path = "/update")
 public class UpdateController {
+
+    public static final Logger LOG = Logger.getLogger(UpdateController.class.getName());
 
     @Autowired
     private UserRepository userRepository;
@@ -28,7 +33,7 @@ public class UpdateController {
     public @ResponseBody
     String updateUser(@RequestBody User user) {
 
-        User oldUser= userRepository.findUserByUsernameAndPassword(user.getUsername(), user.getPassword());
+        User oldUser = userRepository.findUserByUsernameAndPassword(user.getUsername(), user.getPassword());
         oldUser.setUsername(user.getUsername());
         oldUser.setPassword(user.getPassword());
         oldUser.setGender(user.getGender());
@@ -48,7 +53,7 @@ public class UpdateController {
     public @ResponseBody
     String updateUserWH(@RequestBody User user) {
 
-        User oldUser= userRepository.findUserByUsernameAndPassword(user.getUsername(), user.getPassword());
+        User oldUser = userRepository.findUserByUsernameAndPassword(user.getUsername(), user.getPassword());
         oldUser.setHeight(user.getHeight());
         oldUser.setWeight(user.getWeight());
         userRepository.save(oldUser);
@@ -58,9 +63,9 @@ public class UpdateController {
 
     @PostMapping(path = "/updatee2")
     public @ResponseBody
-    String updateUser22(@RequestParam String username, @RequestParam String password, @RequestParam int height,@RequestParam int weight) {
+    String updateUser22(@RequestParam String username, @RequestParam String password, @RequestParam int height, @RequestParam int weight) {
 
-        User oldUser= userRepository.findUserByUsernameAndPassword(username, password);
+        User oldUser = userRepository.findUserByUsernameAndPassword(username, password);
         oldUser.setHeight(height);
         oldUser.setWeight(weight);
 
@@ -71,9 +76,11 @@ public class UpdateController {
 
     @PostMapping(path = "/updateAutentificationDates")
     public @ResponseBody
-    String updateUserAutentification(@RequestParam String username, @RequestParam String password, @RequestParam String newUsername,@RequestParam String newPassword) {
+    String updateUserAutentification(@RequestParam String username, @RequestParam String password, @RequestParam String newUsername, @RequestParam String newPassword) {
 
-        User oldUser= userRepository.findUserByUsernameAndPassword(username, password);
+
+        LOG.log(Level.INFO, "Update auth {0} {1} ", new Object[]{username, password});
+        User oldUser = userRepository.findUserByUsernameAndPassword(username, password);
         oldUser.setUsername(newUsername);
         oldUser.setPassword(newPassword);
 
@@ -86,7 +93,7 @@ public class UpdateController {
     public @ResponseBody
     String updateUser2(@RequestParam(name = "user_name") String username, @RequestParam String password, @RequestParam String firstName, @RequestParam String lastName, @RequestParam String gender, @RequestParam int height, @RequestParam int weight, @RequestParam int age, @RequestParam String email, @RequestParam String contactNo) {
 
-        User oldUser= userRepository.findUserByUsernameAndPassword(username, password);
+        User oldUser = userRepository.findUserByUsernameAndPassword(username, password);
         oldUser.setUsername(username);
         oldUser.setPassword(password);
         oldUser.setGender(gender);
@@ -106,7 +113,7 @@ public class UpdateController {
     public @ResponseBody
     String updateStepsObjective(@RequestParam String username, @RequestParam String password, @RequestParam double stepsObjective) {
 
-        User oldUser= userRepository.findUserByUsernameAndPassword(username, password);
+        User oldUser = userRepository.findUserByUsernameAndPassword(username, password);
         oldUser.setStepsObjective(stepsObjective);
         userRepository.save(oldUser);
         return "Updated steps objective";
