@@ -2,7 +2,10 @@ package com.example.healthcaremonitoringbackend.boundary;
 
 import com.example.healthcaremonitoringbackend.entity.Food;
 import com.example.healthcaremonitoringbackend.entity.User;
+import com.example.healthcaremonitoringbackend.entity.UserDiary;
 import com.example.healthcaremonitoringbackend.repository.FoodRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +15,7 @@ import java.util.List;
 @Controller
 @RequestMapping(path = "/food")
 public class FoodController {
+    public static final Logger LOG = LoggerFactory.getLogger(FoodController.class);
 
     @Autowired
     private FoodRepository foodRepository;
@@ -21,26 +25,12 @@ public class FoodController {
     String addNewFood(@RequestBody Food food) {
 
         foodRepository.save(food);
+        LOG.info("Add a new food");
+        LOG.debug("Was saved a new user");
         return "Food Saved";
 
     }
 
-//    @PostMapping(path = "/addd")
-//    public @ResponseBody
-//    String addNewFood2(@RequestParam String foodname, @RequestParam double carbohydrates, @RequestParam double proteins, @RequestParam double fats, @RequestParam String category, @RequestParam String pictureString) {
-//
-//        Food food = new Food();
-//        food.setFoodname(foodname);
-//        food.setCarbohydrates(carbohydrates);
-//        food.setProteins(proteins);
-//        food.setFats(fats);
-//        food.setCategory(category);
-//        food.setPictureString(pictureString);
-//
-//        foodRepository.save(food);
-//        return "Food Saved";
-//
-//    }
 
     @PostMapping(path = "/add")
     public @ResponseBody
@@ -57,6 +47,8 @@ public class FoodController {
         food.setUrl(url);
 
         foodRepository.save(food);
+        LOG.info("Add a new food by foodname, carbohydrates, proteins, fats, category, pictureString, stars, url");
+        LOG.debug("Was saved a new user");
         return "Food Saved";
 
     }
@@ -79,6 +71,7 @@ public class FoodController {
     public @ResponseBody
         //@RequestParam(name = "user_name") String username, @RequestParam String password
     Food getFoodById(@RequestParam Long id) {
+        LOG.debug("Serch food by id");
         return foodRepository.findFoodById(id);//foodRepository.findFoodById(food.getId());//foodRepository.findFoodByFood_name(food.getFood_name()); //foodRepository.findFoodByFood_nameAndCarbohydratesAndProteinsAndFatsAndCategory(food.getFood_name(), food.getCarbohydrates(), food.getProteins(), food.getFats(), food.getCategory());
     }
 
@@ -86,19 +79,20 @@ public class FoodController {
     public @ResponseBody
     List<Food> getAllFoods() {
         // This returns a JSON or XML with the users
-
+        LOG.debug("Get all food");
         return foodRepository.findAll();
 
     }
-//    @GetMapping(path = "/allForSuggestion")
-//    public @ResponseBody
-//    List<Food> getAllFoods2() {
-//        // This returns a JSON or XML with the users
-//        List<Food>foodList=foodRepository.findAll();
-//        for(Food food : foodList)
-//            if(food.getPictureString().toString().equals("healthyfood"))
-//                foodList.remove(food);
-//        //return foodRepository.findAll();
-//        return foodList;
-//    }
+
+    //For unit test
+
+    @PostMapping(path = "/delete")
+    public @ResponseBody
+    String deleteFood(@RequestParam Long id) {
+        Food food = foodRepository.findFoodById(id);
+        foodRepository.delete(food);
+        LOG.info("Food deleted");
+        return "Food deleted";
+
+    }
 }

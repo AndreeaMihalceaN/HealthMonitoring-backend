@@ -18,15 +18,6 @@ public class UpdateController {
 
     @Autowired
     private UserRepository userRepository;
-//
-//    @PostMapping(path = "/update")
-//    public @ResponseBody
-//    String updateUser(@RequestBody User user) {
-//
-//        userRepository.save(user);
-//        return "Updated user";
-//
-//    }
 
 
     @PostMapping(path = "/update")
@@ -45,6 +36,7 @@ public class UpdateController {
         oldUser.setContactNo(user.getContactNo());
         oldUser.setEmail(user.getEmail());
         userRepository.save(oldUser);
+        LOG.info("Updated user");
         return "Updated user";
 
     }
@@ -57,6 +49,7 @@ public class UpdateController {
         oldUser.setHeight(user.getHeight());
         oldUser.setWeight(user.getWeight());
         userRepository.save(oldUser);
+        LOG.info("Updated height and width");
         return "Updated height and width";
 
     }
@@ -69,6 +62,7 @@ public class UpdateController {
         oldUser.setHeight(height);
         oldUser.setWeight(weight);
 
+        LOG.info("Updated user hight and width");
         userRepository.save(oldUser);
         return "Updated user hight and width";
 
@@ -85,6 +79,7 @@ public class UpdateController {
         oldUser.setPassword(newPassword);
 
         userRepository.save(oldUser);
+        LOG.info("Updated autentification dates");
         return "Updated autentification dates";
 
     }
@@ -105,6 +100,7 @@ public class UpdateController {
         oldUser.setContactNo(contactNo);
         oldUser.setEmail(email);
         userRepository.save(oldUser);
+        LOG.info("Updated user");
         return "Updated user";
 
     }
@@ -116,6 +112,7 @@ public class UpdateController {
         User oldUser = userRepository.findUserByUsernameAndPassword(username, password);
         oldUser.setStepsObjective(stepsObjective);
         userRepository.save(oldUser);
+        LOG.info("Updated steps objective");
         return "Updated steps objective";
 
     }

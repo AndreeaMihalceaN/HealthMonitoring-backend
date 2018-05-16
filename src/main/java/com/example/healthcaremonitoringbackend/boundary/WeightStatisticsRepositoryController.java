@@ -14,10 +14,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping(path = "/weightStatistics")
 public class WeightStatisticsRepositoryController {
+
+    public static final Logger LOG = Logger.getLogger(UserDiaryController.class.getName());
 
     @Autowired
     private WeightStatisticsRepository weightStatisticsRepository;
@@ -34,6 +37,7 @@ public class WeightStatisticsRepositoryController {
         weightStatistics.setCurrentWeight(currentWeight);
 
         weightStatisticsRepository.save(weightStatistics);
+        LOG.info("WeightStatistics object Saved");
         return "WeightStatistics object Saved";
 
     }
@@ -49,6 +53,7 @@ public class WeightStatisticsRepositoryController {
             Day day = dayRepository.findDayById(weightStatistics.getDayId());
             dayWeightSet.add(new DayWeight(day, weightStatistics.getCurrentWeight()));
         }
+        LOG.info("Get dayWeight for user by userId");
         return dayWeightSet;
 
     }

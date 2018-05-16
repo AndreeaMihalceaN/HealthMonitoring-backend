@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class LoginController {
 
+    public static final Logger LOG = LoggerFactory.getLogger(LoginController.class);
+
     @Autowired
     private UserRepository userRepository;// = new UserRepository();
 
@@ -19,13 +21,17 @@ public class LoginController {
     public @ResponseBody
     //@RequestParam(name = "user_name") String username, @RequestParam String password
     User getUser(@RequestBody User user) {
+        LOG.info("Performing user login");
+        LOG.debug("Performing user login");
         return userRepository.findUserByUsernameAndPassword(user.getUsername(), user.getPassword());
+
     }
 
     @PostMapping(path = "/loginWithParams")
     public @ResponseBody
         //@RequestParam(name = "user_name") String username, @RequestParam String password
-    User getUser2(@RequestParam String username, @RequestParam String password) {
+    User getUser(@RequestParam String username, @RequestParam String password) {
+        LOG.info("Performing user login");
         return userRepository.findUserByUsernameAndPassword(username, password);
     }
 

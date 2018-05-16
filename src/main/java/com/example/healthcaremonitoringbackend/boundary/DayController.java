@@ -5,6 +5,8 @@ import com.example.healthcaremonitoringbackend.entity.Food;
 import com.example.healthcaremonitoringbackend.entity.User;
 import com.example.healthcaremonitoringbackend.repository.DayRepository;
 import com.example.healthcaremonitoringbackend.repository.FoodRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,7 @@ import java.util.List;
 @RequestMapping(path = "/day")
 
 public class DayController {
+    public static final Logger LOG = LoggerFactory.getLogger(DayController.class);
 
     @Autowired
     private DayRepository dayRepository;
@@ -29,6 +32,7 @@ public class DayController {
     String addNewDay(@RequestBody Day day) {
 
         dayRepository.save(day);
+        LOG.info("Add new day");
         return "Day Saved";
 
     }
@@ -44,6 +48,7 @@ public class DayController {
         day.setDate(cal);
         dayRepository.save(day);
 
+        LOG.info("Add new day by dateString");
         return "Day Saved";
 
     }
@@ -52,6 +57,7 @@ public class DayController {
     public @ResponseBody
         //@RequestParam(name = "user_name") String username, @RequestParam String password
     Day getDay(@RequestBody Day day) {
+        LOG.info("Get a day");
         return dayRepository.findDayByDate(day.getDate());
     }
 
@@ -62,6 +68,7 @@ public class DayController {
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         Calendar cal = Calendar.getInstance();
         cal.setTime(df.parse(dateString));
+        LOG.info("Get day by dateString");
         return dayRepository.findDayByDate(cal);
     }
 
@@ -69,6 +76,7 @@ public class DayController {
     public @ResponseBody
         //@RequestParam(name = "user_name") String username, @RequestParam String password
     Day getDay(@RequestParam Long id) throws ParseException {
+        LOG.info("Get day by id");
         return dayRepository.findDayById(id);
     }
 
@@ -78,38 +86,9 @@ public class DayController {
     List<Day> getAllFoods() {
         // This returns a JSON or XML with the users
 
+        LOG.info("Get all days");
         return dayRepository.findAll();
 
     }
-
-//    @PostMapping(path = "/updateDay")
-//    public @ResponseBody
-//    String updateDay(@RequestBody Day day) {
-//
-//        Day oldDay = dayRepository.findDayByDate(day.getDate());
-//        oldDay.setDate(day.getDate());
-//        oldDay.setFoods(day.getFoods());
-//
-//        dayRepository.save(oldDay);
-//        return "Updated user";
-//    }
-//
-//    @PostMapping(path = "/updateDay2")
-//    public @ResponseBody
-//    String updateUser2(@RequestParam String date, @RequestParam List<Food>foods) throws ParseException {
-//
-//        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-//        Calendar cal = Calendar.getInstance();
-//        cal.setTime(df.parse(date));
-//        Day oldDay= dayRepository.findDayByDate(cal);
-//        oldDay.setDate(cal);
-//        oldDay.setFoods(foods);
-//        dayRepository.save(oldDay);
-//        //System.out.print(oldDay);
-//
-//
-//        //Book oldBook=
-//        return "Updated user";
-//
-//    }
+    
 }

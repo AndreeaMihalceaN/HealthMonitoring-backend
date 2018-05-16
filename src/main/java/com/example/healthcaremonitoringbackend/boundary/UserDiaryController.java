@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping(path = "/userdiary")
 public class UserDiaryController {
+
+    public static final Logger LOG = Logger.getLogger(UserDiaryController.class.getName());
+
     @Autowired
     private Day_FoodRepository day_FoodRepository;
 
@@ -55,6 +59,7 @@ public class UserDiaryController {
         userDiary.setQuantity(quantity);
         userDiaryRepository.save(userDiary);
 
+        LOG.info("UserDiary Saved");
         return "UserDiary Saved";
 
     }
@@ -74,9 +79,7 @@ public class UserDiaryController {
             if (day_FoodRepository.findDayFoodByDayIdAndFoodId(day.getId(), food.getId()) != null) {
                 DayFood dayFood = day_FoodRepository.findDayFoodByDayIdAndFoodId(day.getId(), food.getId());
 
-
                 UserDiary userDiaryForReturn = userDiaryRepository.findUserDiaryByDayFoodAndUser(dayFood, user);
-
 
                 return userDiaryForReturn;
             }
@@ -131,6 +134,7 @@ public class UserDiaryController {
         UserDiary userDiary = userDiaryRepository.findUserDiaryByDayFoodAndUser(dayFood, user);
         userDiary.setQuantity(quantity);
         userDiaryRepository.save(userDiary);
+        LOG.info("Updated quantity for an existing userDiary");
         return "Updated quantity for an existing userDiary";
 
     }
@@ -139,6 +143,7 @@ public class UserDiaryController {
     public @ResponseBody
     UserDiary getUserDiary(@RequestParam DayFood dayFood, @RequestParam User user) throws ParseException {
 
+        LOG.info("Get userDiary by dayFood and user");
         return userDiaryRepository.findUserDiaryByDayFoodAndUser(dayFood, user);
     }
 
@@ -148,6 +153,7 @@ public class UserDiaryController {
 
         DayFood dayFood = day_FoodRepository.findDayFoodById(idDayFood);
         User user = userRepository.findUserByUsername(username);
+        LOG.info("Get userDiary by idDayFood and username");
         return userDiaryRepository.findUserDiaryByDayFoodAndUser(dayFood, user);
     }
 
@@ -156,7 +162,7 @@ public class UserDiaryController {
     String deleteUserDiary(@RequestParam Long idUserDiary) {
         UserDiary userDiary = userDiaryRepository.findUserDiaryById(idUserDiary);
         userDiaryRepository.delete(userDiary);
-
+        LOG.info("UserDiary deleted");
         return "UserDiary deleted";
 
     }
@@ -191,6 +197,7 @@ public class UserDiaryController {
             }
         }
 
+        LOG.info("Get all food from this day");
         return foodList;
 
     }

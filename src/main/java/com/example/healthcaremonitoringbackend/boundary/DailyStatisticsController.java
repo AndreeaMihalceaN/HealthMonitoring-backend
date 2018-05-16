@@ -6,6 +6,8 @@ import com.example.healthcaremonitoringbackend.entity.Food;
 import com.example.healthcaremonitoringbackend.entity.UserDiary;
 import com.example.healthcaremonitoringbackend.repository.DailyStatisticsRepository;
 import com.example.healthcaremonitoringbackend.repository.DayRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,8 @@ import java.util.List;
 @RequestMapping(path = "/dailyStatistics")
 public class DailyStatisticsController {
 
+    public static final Logger LOG = LoggerFactory.getLogger(DailyStatisticsController.class);
+
     @Autowired
     private DailyStatisticsRepository dailyStatisticsRepository;
 
@@ -32,6 +36,7 @@ public class DailyStatisticsController {
     public @ResponseBody
     String addNewDailyStatistics(@RequestBody DailyStatistics dailyStatistics) {
 
+        LOG.info("Add new daily statistics");
         dailyStatisticsRepository.save(dailyStatistics);
         return "DailyStatistics Saved";
 
@@ -41,6 +46,7 @@ public class DailyStatisticsController {
     public @ResponseBody
     String addNewFood(@RequestParam Long dayId, @RequestParam double totalCalories, @RequestParam Long userId, @RequestParam double steps) {
 
+        LOG.info("Add new daily statistics");
         DailyStatistics dailyStatistics = new DailyStatistics();
         dailyStatistics.setDayId(dayId);
         dailyStatistics.setTotalCalories(totalCalories);
@@ -60,6 +66,7 @@ public class DailyStatisticsController {
         DailyStatistics oldDailyStatistics = dailyStatisticsRepository.findDailyStatisticsByDayIdAndUserId(dayId, userId);
         oldDailyStatistics.setTotalCalories(quantity);
 
+        LOG.info("Update daily statistics");
         dailyStatisticsRepository.save(oldDailyStatistics);
         return "Updated quantity for an existing DailyStatistics";
 
@@ -69,6 +76,7 @@ public class DailyStatisticsController {
     public @ResponseBody
         //@RequestParam(name = "user_name") String username, @RequestParam String password
     DailyStatistics getDailyStatistics(@RequestParam Long userId, @RequestParam Long dayId) {
+        LOG.info("Get daily statistics by userId and dayId");
         return dailyStatisticsRepository.findDailyStatisticsByDayIdAndUserId(dayId, userId);
     }
 
@@ -76,75 +84,10 @@ public class DailyStatisticsController {
     public @ResponseBody
         //@RequestParam(name = "user_name") String username, @RequestParam String password
     List<DailyStatistics> getDailyStatisticsByUserId(@RequestParam Long userId) {
+        LOG.info("Gey daily statistics by userId");
         return dailyStatisticsRepository.findDailyStatisticsByUserId(userId);
     }
 
-//    @PostMapping(path = "/fillDayAndDailyStatistics")
-//    public @ResponseBody
-//        //@RequestParam(name = "user_name") String username, @RequestParam String password
-//    String fillDayAndDailyStatistics(@RequestParam Long userId, String calendarString) throws ParseException {
-//
-//        List<DailyStatistics> dailyStatisticsListForUser = dailyStatisticsRepository.findDailyStatisticsByUserId(userId);
-//        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-//        //Calendar cal = Calendar.getInstance();
-////        cal.setTime(df.parse(calendarString));
-//        //Day day = dayRepository.findDayByDate(cal);
-//
-//        Day day = dayRepository.findDayById(dailyStatisticsListForUser.get(dailyStatisticsListForUser.size() - 2).getDayId());
-//        Date dayObject = day.getDate().getTime();
-//        String lastDay = df.format(dayObject);
-//
-//        Calendar cal = Calendar.getInstance();
-//        cal.setTime(df.parse(calendarString));
-//        Day today = dayRepository.findDayByDate(cal);
-//
-//        cal = today.getDate();
-//
-//        cal.setTime(new Date());
-//        cal.add(Calendar.DAY_OF_YEAR, -1);
-//        Date dayPrev = cal.getTime();
-//        //String dateString = dayPrev.toString();
-//        String dateForTask = df.format(dayPrev);
-//
-//        String result = "";
-//        int i = 1;
-//        result += lastDay + " " + dateForTask;
-//        while (!lastDay.equals(dateForTask)) {
-//
-//            //add new day
-//            if (dayRepository.findDayByDate(cal) == null) {
-//                Day newDay = new Day();
-//                Calendar newCal = Calendar.getInstance();
-//                cal.setTime(df.parse(dateForTask));
-//                newDay.setDate(newCal);
-//                dayRepository.save(newDay);
-//
-//                //add new dailyStatistics
-//                DailyStatistics dailyStatistics = new DailyStatistics();
-//                Day searchDay = dayRepository.findDayByDate(newDay.getDate());
-//                dailyStatistics.setDayId(searchDay.getId());
-//                dailyStatistics.setTotalCalories(0);
-//                dailyStatistics.setUserId(userId);
-//                dailyStatistics.setSteps(0);
-//                dailyStatisticsRepository.save(dailyStatistics);
-//
-//
-//                result += "Succesful!" + dateForTask;
-//            }
-//            cal.setTime(new Date());
-//            cal.add(Calendar.DAY_OF_YEAR, -i);
-//            dayPrev = cal.getTime();
-//            //String dateString = dayPrev.toString();
-//            dateForTask = df.format(dayPrev);
-//            i--;
-//
-//
-//        }
-//
-//        //DailyStatistics dailyStatistics = dailyStatisticsRepository.findDailyStatisticsByDayIdAndUserId(day.getId(), userId);
-//        return result;
-//
-//    }
 
     @PostMapping(path = "/searchDailyStatisticsByUserAndDate")
     public @ResponseBody
@@ -156,6 +99,7 @@ public class DailyStatisticsController {
 
         Day day = dayRepository.findDayByDate(cal);
 
+        LOG.info("Get daily statistics by userId and dateString");
         return dailyStatisticsRepository.findDailyStatisticsByDayIdAndUserId(day.getId(), userId);
     }
 
@@ -166,6 +110,7 @@ public class DailyStatisticsController {
         DailyStatistics oldDailyStatistics = dailyStatisticsRepository.findDailyStatisticsByDayIdAndUserId(dayId, userId);
         oldDailyStatistics.setSteps(steps);
 
+        LOG.info("Update steps for daily statistics");
         dailyStatisticsRepository.save(oldDailyStatistics);
         return "Updated steps for an existing DailyStatistics";
 
