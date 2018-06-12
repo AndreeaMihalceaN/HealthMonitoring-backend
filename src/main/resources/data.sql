@@ -1,0 +1,1 @@
+update db_health.user set password=MD5(password);
