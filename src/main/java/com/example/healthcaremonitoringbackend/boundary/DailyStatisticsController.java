@@ -63,7 +63,7 @@ public class DailyStatisticsController {
 
     @PostMapping(path = "/add2")
     public @ResponseBody
-    String addNewFood(@RequestParam Long dayId, @RequestParam double totalCalories, @RequestParam Long userId, @RequestParam double steps) {
+    String addDailyStatisticsWithoutId(@RequestParam Long dayId, @RequestParam double totalCalories, @RequestParam Long userId, @RequestParam double steps) {
 
         LOG.info("Add new daily statistics");
         DailyStatistics dailyStatistics = new DailyStatistics();
