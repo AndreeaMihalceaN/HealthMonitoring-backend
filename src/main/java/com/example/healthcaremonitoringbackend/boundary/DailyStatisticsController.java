@@ -42,6 +42,16 @@ public class DailyStatisticsController {
 
     }
 
+    @PostMapping(path = "/delete")
+    public @ResponseBody
+    String deleteDailyStatistics() {
+
+
+        dailyStatisticsRepository.deleteAll();
+        return "Deleted all";
+
+    }
+
     @PostMapping(path = "/add2")
     public @ResponseBody
     String addNewFood(@RequestParam Long dayId, @RequestParam double totalCalories, @RequestParam Long userId, @RequestParam double steps) {
