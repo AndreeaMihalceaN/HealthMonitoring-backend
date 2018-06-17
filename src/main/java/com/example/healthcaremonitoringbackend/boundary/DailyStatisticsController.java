@@ -52,6 +52,15 @@ public class DailyStatisticsController {
 
     }
 
+    @GetMapping(path = "/all")
+    public @ResponseBody
+    Iterable<DailyStatistics> getAllDailyStatistics() {
+        // This returns a JSON or XML with the users
+        LOG.info("Get all dailyStatistics");
+        LOG.debug("Get all dailyStatistics");
+        return dailyStatisticsRepository.findAll();
+    }
+
     @PostMapping(path = "/add2")
     public @ResponseBody
     String addNewFood(@RequestParam Long dayId, @RequestParam double totalCalories, @RequestParam Long userId, @RequestParam double steps) {
