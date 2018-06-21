@@ -122,4 +122,14 @@ public class Day_FoodController {
         return "Deleted dayFood";
 
     }
+
+    @GetMapping(path = "/all")
+    public @ResponseBody
+    List<DayFood> getAllDayFoods() {
+        // This returns a JSON or XML with the users
+
+        LOG.info("Get all dayFood");
+        return day_FoodRepository.findAll();
+
+    }
 }
