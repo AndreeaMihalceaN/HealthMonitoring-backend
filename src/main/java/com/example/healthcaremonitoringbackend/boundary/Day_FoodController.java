@@ -132,4 +132,14 @@ public class Day_FoodController {
         return day_FoodRepository.findAll();
 
     }
+
+    @GetMapping(path = "/allDayFoodByIdDate")
+    public @ResponseBody
+    List<DayFood> getallDayFoodByIdDate(long idDate) {
+        // This returns a JSON or XML with the users
+
+        LOG.info("Get all allDayFoodByIdDate");
+        return day_FoodRepository.findAllByDayId(idDate);
+
+    }
 }
