@@ -107,6 +107,37 @@ public class UserDiaryController {
         return userDiaryList;
     }
 
+    @PostMapping(path = "/getAllFoodsFromThisDay")
+    public @ResponseBody
+    List<Food> getAllFoodsFromThisDay(@RequestParam String dateString, String username) throws ParseException {
+
+        List<UserDiary> userDiaryList = new ArrayList<>();
+        List<Food> foodList = new ArrayList<>();
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(df.parse(dateString));
+        Day day = dayRepository.findDayByDate(cal);
+
+        List<DayFood> listDayFood = day_FoodRepository.findAllByDayId(day.getId());
+        User user = userRepository.findUserByUsername(username);
+
+        for (DayFood dayFood : listDayFood) {
+            UserDiary userDiary = userDiaryRepository.findUserDiaryByDayFoodAndUser(dayFood, user);
+            if (userDiary != null)
+                userDiaryList.add(userDiary);
+        }
+        //return userDiaryList;
+
+
+        for(UserDiary userDiaryObject : userDiaryList)
+        {
+            for(DayFood dayFoodObject : listDayFood)
+                if(dayFoodObject.getId()==userDiaryObject.getDayFood().getId())
+                    foodList.add(foodRepository.findFoodById(dayFoodObject.getFoodId()));
+        }
+        return foodList;
+    }
+
     @PostMapping(path = "/updateUserDiary")
     public @ResponseBody
     String updateUserDiaryQuantity(@RequestParam double quantity, @RequestParam Long id) {
@@ -167,40 +198,42 @@ public class UserDiaryController {
 
     }
 
-    @PostMapping(path = "/getAllFoodsFromThisDay")
-    public @ResponseBody
-    List<Food> getFoods(@RequestParam String dateString, @RequestParam String username) throws ParseException {
+//    @PostMapping(path = "/getAllFoodsFromThisDay")
+//    public @ResponseBody
+//    List<Food> getFoods(@RequestParam String dateString, @RequestParam String username) throws ParseException {
+//
+//        List<DayFood> dayFoodList = new ArrayList<>();
+//        List<Food> foodList = new ArrayList<>();
+//
+//        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+//        Calendar cal = Calendar.getInstance();
+//        cal.setTime(df.parse(dateString));
+//        if (dayRepository.findDayByDate(cal) != null) {
+//            Day day = dayRepository.findDayByDate(cal);
+//
+//            User user = userRepository.findUserByUsername(username);
+//            List<UserDiary> listUserDiary = userDiaryRepository.findAllByUser(user);
+//
+//            for (UserDiary userdiary : listUserDiary) {
+//
+//                dayFoodList.add(userdiary.getDayFood());
+//            }
+//
+//            for (DayFood dayFood : dayFoodList) {
+//                if (dayFood.getDayId() == day.getId()) {
+//                    Food myFood = foodRepository.findFoodById(dayFood.getFoodId());
+//                    foodList.add(myFood);
+//                }
+//
+//            }
+//        }
+//
+//        LOG.info("Get all food from this day");
+//        return foodList;
+//
+//    }
 
-        List<DayFood> dayFoodList = new ArrayList<>();
-        List<Food> foodList = new ArrayList<>();
 
-        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(df.parse(dateString));
-        if (dayRepository.findDayByDate(cal) != null) {
-            Day day = dayRepository.findDayByDate(cal);
-
-            User user = userRepository.findUserByUsername(username);
-            List<UserDiary> listUserDiary = userDiaryRepository.findAllByUser(user);
-
-            for (UserDiary userdiary : listUserDiary) {
-
-                dayFoodList.add(userdiary.getDayFood());
-            }
-
-            for (DayFood dayFood : dayFoodList) {
-                if (dayFood.getDayId() == day.getId()) {
-                    Food myFood = foodRepository.findFoodById(dayFood.getFoodId());
-                    foodList.add(myFood);
-                }
-
-            }
-        }
-
-        LOG.info("Get all food from this day");
-        return foodList;
-
-    }
 
     @PostMapping(path = "/getQuantityFoodTodayFromUser")
     public @ResponseBody
